@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  vallhalla:
+    image: valhalla/valhalla
+    ports:
+      - 8002:8002
+    volumes:
+      - ma-data:/valhalla_tiles
+
+   
+
+volumes:
+  map-data:
+
+networks:
+  default:
+   name: Fare-calculator
+   external: true
+     
