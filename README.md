@@ -2,6 +2,12 @@
 
 # setup Valhalla Service And FastAPI
 
+# Configure  your .env file in your root directory
+VALHALLA_URL="value"
+BASE_FARE=value
+COST_PER_KM=value
+COST_PER_MINUTE=value
+
 ### It is start valhalla service with latest data of iran
 
 ```

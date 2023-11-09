@@ -1,9 +1,8 @@
 import json
-from turtle import distance
 from fastapi import FastAPI
 from pydantic import BaseModel
 import httpx
-from .config import Config
+from config import Config
 import json
 
 app = FastAPI()
@@ -21,17 +20,19 @@ async def computing_fare(start:Coordinates,destination:Coordinates):
     async with httpx.AsyncClient() as client:
         data ={
             "locations":[start.model_dump(),destination.model_dump()],
-            "costing":"taxi",
-            "direction_options":{
-                "units":"kilometers",
-            }
+            "costing":"auto",
+            "costing_options":{"auto":{"country_crossing_penalty":2000.0}},
+            "units":"kilometers",
+            "id":"my_work_route"
         }
-        route_response = await client.post(settings.VALHALLA_URL,json=json.dumps(data))
-        distance = route_response.json()["trip"]["summary"]["length"]
-        duration = route_response.json()["trip"]["summary"]["time"]
+        url = f"{settings.VALHALLA_URL}/route"
+        json_data =json.dumps(data)
+        response = await client.post(url,json=data)
+        distance = response.json()["trip"]["summary"]["length"]
+        duration = response.json()["trip"]["summary"]["time"]
 
         # calculate fare based on distance and duration
-        fare = None
+        fare = settings.BASE_FARE + (settings.COST_PER_KM * distance) + (settings.COST_PER_MINUTE * (duration / 60))
 
         return {"start":start,"destination":destination,"fare":fare}
 
