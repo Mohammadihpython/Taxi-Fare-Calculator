@@ -2,7 +2,7 @@ from pprint import pprint
 import httpx
 import asyncio
 async def get_rout():
-    url ="http://localhost:8002/route"
+    url ="http://vallhalla:8002/route"
 
     json_payload ={
         "locations":[

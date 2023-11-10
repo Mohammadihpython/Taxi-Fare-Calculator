@@ -1,11 +1,16 @@
-# Taxi Fare Calculator Service
+# Taxi Services
 
-# setup Valhalla Service And FastAPI
+## Taxi Fare Calculator Service
 
-# Configure  your .env file in your root directory
-VALHALLA_URL="value"
-BASE_FARE=value
+## setup Valhalla Service And FastAPI
+
+## Configure  your .env file in your root directory
+VALHALLA_URL="value" for local use localhost for development use docker-compose service name
+
+BASE_FARE=value 
+
 COST_PER_KM=value
+
 COST_PER_MINUTE=value
 
 ### It is start valhalla service with latest data of iran

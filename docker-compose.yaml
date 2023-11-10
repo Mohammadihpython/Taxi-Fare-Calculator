@@ -2,8 +2,8 @@ version: "3.8"
 services:
   vallhalla:
     image: gisops/valhalla:3.3.0
-    ports:
-      - 8002:8002
+    expose:
+      - 8002
     volumes:
       - custom_files:/custom_files
 
@@ -16,12 +16,30 @@ services:
       - build_time_zones=False  # build timezone db with "True" or "Force"
       - build_tar=True  # build an indexed tar file from the tile_dir for faster graph loading times
       - force_rebuild=False  # forces a rebuild of the routing tiles with "True"
-
+    networks:
+      - Taxi_services
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    env_file: dev.env
+    ports:
+      - 8003:8000
+    restart: on-failure
+    command: uvicorn main:app --host=0.0.0.0 --reload
+  
+    depends_on:
+      - vallhalla
+    networks:
+      - Taxi_services
 volumes:
   custom_files:
 
+  data:  
+
 networks:
-  default:
-    name: Fare-calculator
+  Taxi_services:
+    name: Taxi_services
     external: true
      
